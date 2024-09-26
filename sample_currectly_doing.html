@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion Page</title>
+    <link rel="stylesheet" href="discussion.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="navbar">
+            <div class="top-menu">
+                <a href="index.html">Home</a>
+            </div>
+            <div class="top-menu">
+                <a href="setting.html">Settings</a>
+            </div>
+        </div>
+        <h1 style="color:black;">*Project name*</h1>
+        <div class="img-div"> <img class="img" src="Screenshot 2024-03-13 at 10.18.01 PM.png" alt="Logo" class="logo">
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="topic">
+                <h2>Discussion</h2>
+                <img src="image.jpg" alt="Discussion Image">
+                <div class="comments">
+                    <p>Lets built this project together.</p>
+                    <footer id="post-info">Posted by: Aviral Khanna</footer>
+                </div>
+            </div>
+            <section id="discussion-section">
+                <!-- Existing posts will be dynamically added here -->
+            </section>
+        </div>
+        <aside>
+            <div class="add-post">
+                <h2>Contribution Section</h2>
+                <form id="post-form">
+                    <textarea id="post-content" placeholder="Type your contribution here..." rows="4"></textarea>
+                    <input type="text" id="post-author" placeholder="Your Name">
+                    <input type="submit" value="Add Post">
+                </form>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        // Function to handle form submission
+        document.getElementById("post-form").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Get input values
+            var content = document.getElementById("post-content").value;
+            var author = document.getElementById("post-author").value;
+            var timestamp = new Date(); // Get current timestamp
+
+            // Create new post element
+            var newPost = document.createElement("div");
+            newPost.classList.add("post");
+            newPost.innerHTML = `
+                <p>${content}</p>
+                <footer id="post-info"> - ${author}, ${getTimeAgoString(timestamp)}</footer>
+            `;
+
+            // Append new post to discussion section
+            document.getElementById("discussion-section").appendChild(newPost);
+
+            // Clear form inputs
+            document.getElementById("post-content").value = "";
+            document.getElementById("post-author").value = "";
+        });
+
+        // Function to calculate time ago string
+        function getTimeAgoString(timestamp) {
+            var now = new Date();
+            var elapsed = now - timestamp;
+            if (elapsed < 60000) {
+                return Math.floor(elapsed / 1000) + " seconds ago";
+            } else if (elapsed < 3600000) {
+                return Math.floor(elapsed / 60000) + " minutes ago";
+            } else if (elapsed < 86400000) {
+                return Math.floor(elapsed / 3600000) + " hours ago";
+            } else {
+                return Math.floor(elapsed / 86400000) + " days ago";
+            }
+        }
+    </script>
+</body>
+
+</html>

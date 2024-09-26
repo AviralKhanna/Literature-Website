@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="login_page.css">
+</head>
+
+<body>
+
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="loginForm">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function (event) {
+            event.preventDefault(); 
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            // Retrieve saved entries from localStorage
+            const savedEntries = JSON.parse(localStorage.getItem("savedEntries")) || [];
+
+            // Check if email and password match any saved entry
+            const matchedEntry = savedEntries.find(entry => entry.email === email && entry.password === password);
+
+            if (matchedEntry) {
+                // Redirect to some other page (replace "redirect.html" with the actual page URL)
+                window.location.href = "index.html";
+            } else {
+                alert("Invalid email or password. Please try again.");
+            }
+        });
+    </script>
+
+</body>
+
+</html>

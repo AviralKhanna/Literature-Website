@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="projectApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Project</title>
+    <style>
+        /* Apply your home page theme CSS here */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+        }
+
+        .header-main {
+            background-color: rgb(255, 255, 255);
+            height: 250px;
+            width: 100%;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .additional-div {
+            background-color: #ffc017;
+            width: 100%;
+            height: 18%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 10;
+        }
+
+        .navigation-options {
+            display: flex;
+            align-items: center;
+        }
+
+        .navigation-option-right {
+            color: rgb(255, 255, 255);
+            margin-right: 5px;
+            cursor: pointer;
+        }
+
+        .navigation-option-left {
+            color: black;
+            margin-left: 0px;
+        }
+
+        .main-content {
+            display: flex;
+        }
+
+        .blue-div {
+            flex-grow: 1;
+            color: #000;
+            background-color: rgb(249, 250, 239);
+            padding: 20px;
+            box-sizing: border-box;
+            margin-top: 0;
+            overflow-y: hidden;
+            max-height: 100vh;
+        }
+
+        .blue-div:hover {
+            overflow-y: auto;
+        }
+
+        .sidebar-heading {
+            background-color: rgb(111, 99, 34);
+            color: white;
+            padding: 0;
+            width: 100%;
+            height: 6%;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        aside {
+            background-color: rgb(233, 233, 190);
+            padding: 20px;
+            box-sizing: border-box;
+            margin: 0px;
+            overflow-y: hidden;
+            max-height: 100vh;
+
+            flex-grow: 1;
+            position: relative;
+            flex-shrink: 0;
+            max-width: 20%;
+            background-color: #ffc017;
+            padding: 0;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        aside:hover {
+            overflow-y: auto;
+        }
+
+        h1 {
+            margin: 20px 0;
+        }
+
+        .inside-header-box {
+            background-color: rgb(0, 0, 0);
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 70%;
+            height: 100%;
+        }
+
+        .custom-pink-div {
+            background: #000; /* Set the background color */
+            background-image: url("Screenshot 2024-03-13 at 10.18.01 PM.png"); /* Replace 'your-image-url.jpg' with the URL of your image */
+            background-size: 90%; /* Adjust the size of the image */
+            background-repeat: no-repeat; /* Prevents repeating of the image */
+            height: 82%;
+            width: 30%;
+            position: absolute;
+            top: 18%; /* Adjust this value to start the div below the .additional-div */
+            left: 0;
+            z-index: 5;
+        }
+
+        a {
+            font-family: Arial, Helvetica, sans-serif;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 17px;
+            color: rgb(0, 0, 0);
+            margin-right: 5px;
+            margin-left: 15px;
+        }
+
+        aside p {
+            color: rgb(0, 0, 0);
+            padding-right: 10px;
+            padding-left: 10px;
+        }
+
+        .footer {
+            background-color: black;
+            color: rgb(255, 255, 255);
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 18px;
+            text-align: center;
+            padding: 12px;
+        }
+
+        /* Additional styles for project add page */
+        .container {
+            display: flex;
+            width: 95%;
+            margin-top: 25px;
+            margin-left: 30px;
+            height: auto; /* Change height to auto to allow infinite scroll */
+            flex-wrap: wrap; /* Allow divs to wrap to the next row */
+        }
+
+        .red {
+            flex: 0 0 70%; /* 70% width */
+            height: 200px; /* Setting a fixed height for demonstration */
+            margin-bottom: 20px; /* Add some space between rows */
+            display: flex; /* Make red div flex container */
+            flex-direction: column; /* Stack children vertically */
+        }
+
+        .pink-div {
+            height: 35%; /* 60% of red div's height */
+            background-color: #f0f0f0; /* Light grey background */
+            padding: 10px;
+            display: flex;
+            justify-content: center; /* Center align heading */
+            align-items: flex-start; /* Align heading to top */
+        }
+
+        .green-div {
+            height: 50%; /* 30% of red div's height */
+            background-color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: center; /* Center align text */
+            align-items: center; /* Center align text vertically */
+        }
+
+        .white-div {
+            height: 10%; /* 10% of red div's height */
+            background-color: #f0f0f0; /* Light grey background */
+            padding: 10px;
+            display: flex;
+            justify-content: flex-end; /* Align date to the right */
+            align-items: center; /* Center align date vertically */
+        }
+
+        .blue {
+            flex: 1; /* Rest of the width */
+            background-size: cover;
+            background-position: center;
+            background-image: url("https://source.unsplash.com/featured/300x201");
+            height: 200px; /* Setting a fixed height for demonstration */
+            margin-bottom: 20px; /* Add some space between rows */
+            opacity: 1;
+            transition: opacity 0.5s ease; /* Smooth transition */
+        }
+
+        .hidden {
+            opacity: 0;
+        }
+
+        /* Added styles for header */
+        .header-main h1 {
+            margin: 0;
+        }
+
+        .header-main .navigation-options {
+            position: absolute;
+            top: 0;
+            right: 20px;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script>
+        angular.module('projectApp', [])
+            .controller('ProjectController', function() {
+                var vm = this;
+                vm.projects = [];
+
+                vm.addProject = function() {
+                    vm.projects.push({ heading: "" });
+                };
+
+                vm.removeProject = function(index) {
+                    vm.projects.splice(index, 1);
+                };
+            });
+    </script>
+</head>
+<body>
+    <div ng-controller="ProjectController as projectCtrl">
+        <div class="header-main">
+            <h1>Add New Project</h1>
+            <div class="navigation-options">
+                <button ng-click="projectCtrl.addProject()">Add New</button>
+            </div>
+        </div>
+        <div ng-repeat="project in projectCtrl.projects" class="container">
+            <div class="red">
+                <div class="pink-div">
+                    <input type="text" ng-model="project.heading" placeholder="Enter Project Heading">
+                </div>
+                <div class="green-div">
+                    <!-- Additional content can be added here -->
+                </div>
+                <div class="white-div">
+                    <button ng-click="projectCtrl.removeProject($index)">Remove</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

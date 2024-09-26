@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+    <link rel="stylesheet" href="login_page.css">
+</head>
+
+<body>
+
+    <div class="login-container">
+        <h2>Sign-Up</h2>
+        <form>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+
+            <label for="dob">Date of Birth:</label>
+            <!-- check here for valid age entry -->
+            <input type="date" id="dob" name="dob" required>
+
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value=""></option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit" onclick="savePassword(event)">Sign Up</button>
+        </form>
+    </div>
+
+    <script>
+        savePassword = (event) => {
+            event.preventDefault();
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const phone = document.getElementById("phone").value;
+            const dob = document.getElementById("dob").value;
+            const gender = document.getElementById("gender").value;
+            const password = document.getElementById("password").value;
+
+            let entries = JSON.parse(localStorage.getItem('savedEntries')) || [];
+
+            entries.push({ name, gender, dob, email, phone, password });
+
+            localStorage.setItem("savedEntries", JSON.stringify(entries));
+
+            // Clear input fields after saving
+            document.getElementById("name").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("phone").value = "";
+            document.getElementById("dob").value = "";
+            document.getElementById("gender").value = "";
+            document.getElementById("password").value = "";
+        }
+    </script>
+
+</body>
+
+</html>

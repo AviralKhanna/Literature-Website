@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>index_msin_scroll</title>
+  <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="home-animation.css" />
+
+</head>
+
+<body>
+  <div class="header-main">
+    <div class="additional-div">
+      <div class="navigation-options">
+        <div class="navigation-option-right"><a href="index.html">Home</a></div>
+        <div class="navigation-option-left"><a href="discussion.html">Discussion</a></div>
+      </div>
+
+      <div class="navigation-options">
+        <div class="navigation-option-left"><a href="setting.html">Settings</a></div>
+        <div class="navigation-option-right">
+          <a href="form_login.html">login</a>
+        </div>
+        <div class="navigation-option-right">
+          <a href="sign_up.html">Sign Up</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="custom-pink-div"></div>
+
+    <div class="inside-header-box">
+      <div class="word-container">
+        <span class="word">Imagination</span>
+        <span class="word">Storytelling</span>
+        <span class="word">Poetry</span>
+        <span class="word">Script</span>
+        <span class="word">Writing</span>
+        <span class="word">Plot</span>
+        <span class="word">Character</span>
+        <span class="word">Theme</span>
+        <span class="word">Narrative</span>
+        <span class="word">Verse</span>
+        <span class="word">Prose</span>
+        <span class="word">Imagination</span>
+        <span class="word">Story</span>
+        <span class="word">Character</span>
+        <span class="word">Plot</span>
+        <span class="word">Dialogue</span>
+        <span class="word">Prose</span>
+        <span class="word">Poetry</span>
+      </div>
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          let words = document.querySelectorAll(".word");
+          let container = document.querySelector(".word-container");
+          let containerRect = container.getBoundingClientRect();
+          let positions = []; // Store positions of already placed words
+
+          // Calculate the number of columns and rows needed to evenly distribute words
+          let columns = Math.ceil(Math.sqrt(words.length));
+          let rows = Math.ceil(words.length / columns);
+
+          // Calculate the width and height of each cell
+          let cellWidth = containerRect.width / columns;
+          let cellHeight = containerRect.height / rows;
+
+          let wordIndex = 0;
+          for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < columns; col++) {
+              if (wordIndex >= words.length) break;
+              let word = words[wordIndex];
+              let x =
+                col * cellWidth +
+                Math.random() * (cellWidth - word.offsetWidth - 8) +
+                4; // 4px gap on each side
+              let y =
+                row * cellHeight +
+                Math.random() * (cellHeight - word.offsetHeight - 8) +
+                4; // 4px gap on each side
+
+              word.style.left = x + "px";
+              word.style.top = y + "px";
+              word.style.display = "inline";
+
+              positions.push({
+                x: x,
+                y: y,
+                width: word.offsetWidth,
+                height: word.offsetHeight,
+              });
+              wordIndex++;
+            }
+          }
+
+          // Start twinkle animation after a delay
+          setTimeout(() => {
+            words.forEach((word) => {
+              word.style.animationDelay = Math.random() * 2 + "s"; // Random delay between 0 and 2 seconds
+            });
+          }, 3000); // 4 seconds delay before starting the animation
+        });
+      </script>
+    </div>
+  </div>
+  <div class="main-content">
+    <div class="blue-div">
+
+
+
+
+      <div class="container" id="container">
+        <!-- Initial divs -->
+        <div class="red">
+          <div class="pink-div">
+            <h2>This is a random heading</h2>
+          </div>
+          <div class="green-div">
+            <p>This is some random text.</p>
+          </div>
+          <div class="white-div">
+            <p>Date: 2024-03-19</p>
+          </div>
+        </div>
+        <div class="blue"></div>
+      </div>
+
+      <script>
+        // Function to append new blue divs with smooth transition
+        function appendDivs() {
+          var container = document.getElementById('container');
+          var redDiv = document.createElement('div');
+          redDiv.classList.add('red');
+          var pinkDiv = document.createElement('div');
+          pinkDiv.classList.add('pink-div', 'hidden'); // Initially hide the div
+          pinkDiv.innerHTML = "<h2>This is a random heading</h2>";
+          redDiv.appendChild(pinkDiv);
+          var greenDiv = document.createElement('div');
+          greenDiv.classList.add('green-div', 'hidden'); // Initially hide the div
+          greenDiv.innerHTML = "<p>This is some random text.</p>";
+          redDiv.appendChild(greenDiv);
+          var whiteDiv = document.createElement('div');
+          whiteDiv.classList.add('white-div', 'hidden'); // Initially hide the div
+          whiteDiv.innerHTML = "<p>Date: " + new Date().toISOString().slice(0, 10) + "</p>";
+          redDiv.appendChild(whiteDiv);
+          container.appendChild(redDiv);
+          var blueDiv = document.createElement('div');
+          blueDiv.classList.add('blue', 'hidden'); // Initially hide the div
+          container.appendChild(blueDiv);
+          setTimeout(() => {
+            pinkDiv.classList.remove('hidden'); // Fade in the pink div
+            greenDiv.classList.remove('hidden'); // Fade in the green div
+            whiteDiv.classList.remove('hidden'); // Fade in the white div
+            blueDiv.classList.remove('hidden'); // Fade in the blue div
+          }, 50); // Delay to ensure smooth transition
+        }
+
+        // Function to add a delay before loading next set of divs
+        function addDelay() {
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              resolve();
+            }, 200);
+          });
+        }
+
+        // Function to handle scroll event
+        window.onscroll = async function () {
+          if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            await addDelay(); // Add a delay before loading next set of divs
+            for (var i = 0; i < 5; i++) { // Add 5 more pairs of divs when reaching the bottom
+              appendDivs();
+            }
+            await addDelay(); // Add a delay before allowing to scroll further
+          }
+        };
+
+        // Initial load
+        for (var i = 0; i < 10; i++) { // Initially, let's add 10 pairs of divs
+          appendDivs();
+        }
+      </script>
+
+
+
+
+    </div>
+
+    <aside>
+      <div class="sidebar-heading">
+        <h2>Today's Highlights</h2>
+      </div>
+      <p>
+        It will remain fixed on the right side of the page even when
+        scrolling.
+      </p>
+      <p>
+        It will remain fixed on the right side of the page even when
+        scrolling.
+      </p>
+      <p>
+        It will remain fixed on the right side of the page even when
+        scrolling.
+      </p>
+      <p>
+        It will remain fixed on the right side of the page even when
+        scrolling.
+      </p>
+      <p>
+        It will remain fixed on the right side of the page even when
+        scrolling.
+      </p>
+      <p>
+        It will remain fixed on the right side of the page even when
+        scrolling.
+      </p>
+      <p>
+        It will remain fixed on the right side of the page even when
+        scrolling.
+      </p>
+      <p>
+        It will remain fixed on the right side of the page even when
+        scrolling.
+      <p>
+        It will remain fixed on the right side of the page even when
+        scrolling.
+      </p>
+      <p>
+        It will remain fixed on the right side of the page even when
+        scrolling.
+      </p>
+      <p>
+        It will remain fixed on the right side of the page even when
+        scrolling.
+      </p>
+      <p>
+        It will remain fixed on the right side of the page even when
+        scrolling.
+      </p>
+      <p>
+        It will remain fixed on the right side of the page even when
+        scrolling.
+      </p>
+      </p>
+      <p>
+        It will remain fixed on the right side of the page even when
+        scrolling.
+      </p>
+      <p>
+        It will remain fixed on the right side of the page even when
+        scrolling.
+      </p>
+      <p>
+        It will remain fixed on the right side of the page even when
+        scrolling.
+      </p>
+      <p>
+        It will remain fixed on the right side of the page even when
+        scrolling.
+      </p>
+      <p>
+        It will remain fixed on the right side of the page even when
+        scrolling.
+      </p>
+    </aside>
+  </div>
+  <div class="footer">A project for Web Tech UPES.</div>
+</body>
+
+</html>

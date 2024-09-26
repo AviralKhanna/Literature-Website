@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="setting.css">
+    <title>Fsinal-Sedddtting</title>
+</head>
+
+<body>
+    <div class="scroll-container-1">
+        <div class="setting-elements-heading">Settings</div>
+        <div class="scroll-content">
+            <div class="setting-elements"><a href="index.html">Home</a></div>
+            <div class="setting-elements"><a href="#">Privacy</a></div>
+            <div class="setting-elements"><a href="#">Customise</a></div>
+            <div class="setting-elements"><a href="#">Languages</a></div>
+            <div class="setting-elements"><a href="#">About Us</a></div>
+            <div class="setting-elements"><a href="#">Help</a></div>
+        </div>
+    </div>
+
+    <div class="scroll-container-2">
+        <div class="setting-elements-heading">Your Profile</div>
+        <div class="scroll-content">
+            <div class="setting-elements"></div>
+
+            <div class="custom-div">
+                <div class="custom-div-child-2">
+                    <div class="custom-div-child-1"></div>
+                </div>
+            </div>
+            <h4>Bio</h4>
+            <div class="Bio-box">
+                <textarea class="bio-textbox" id="bio" rows="4" cols="50"></textarea>
+                <div class="wordcounter-bio" id="word-count">Words Limit: 50</div>
+            </div>
+            <div>
+                <h2>Websites and Links</h2>
+                <input class="website-textbox" type="text" id="link">
+            </div>
+            <div>
+                <h2> Make your account</h2>
+                <select class="select-account" id="dropdown">
+                    <option value="option1">Private</option>
+                    <option value="option2">Public</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="scroll-container-3">
+        <div class="setting-elements-heading">Your Content</div>
+        <div class="scroll-content" id="mainDiv">
+        </div>
+        <div class="add-button" id="addButton">+</div>
+        <div class="popup" id="popup">
+            <h2>Add New Content</h2>
+            <input type="text" id="headingInput" placeholder="Enter heading"><br>
+            <textarea id="textInput" rows="4" placeholder="Enter text"></textarea><br>
+            <input type="file" id="imageInput" accept="image/*"><br>
+            <div class="button-container">
+                <button id="submit">Submit</button>
+                <button id="cancel">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Load stored content from local storage
+        var storedContent = JSON.parse(localStorage.getItem('content'));
+        if (storedContent) {
+            var mainDiv = document.getElementById('mainDiv');
+            storedContent.forEach(function (content) {
+                appendContent(mainDiv, content);
+            });
+        }
+    });
+    
+    document.getElementById('addButton').addEventListener('click', function () {
+        document.getElementById('popup').style.display = 'block';
+    });
+    
+    document.getElementById('submit').addEventListener('click', submitForm);
+    
+    document.getElementById('cancel').addEventListener('click', function () {
+        document.getElementById('popup').style.display = 'none';
+    });
+    
+    // Add event listener to submit form when Enter key is pressed
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            submitForm();
+        }
+    });
+    
+    function submitForm() {
+        var heading = document.getElementById('headingInput').value;
+        var text = document.getElementById('textInput').value;
+        var imageInput = document.getElementById('imageInput');
+        var imageFile = imageInput.files[0];
+    
+        var reader = new FileReader();
+        reader.onload = function (event) {
+            var imageUrl = event.target.result;
+            var mainDiv = document.getElementById('mainDiv');
+            appendContent(mainDiv, { heading: heading, text: text, imageUrl: imageUrl });
+    
+            // Save content to local storage
+            var storedContent = JSON.parse(localStorage.getItem('content')) || [];
+            storedContent.push({ heading: heading, text: text, imageUrl: imageUrl });
+            localStorage.setItem('content', JSON.stringify(storedContent));
+    
+            // Reset the input fields
+            document.getElementById('headingInput').value = '';
+            document.getElementById('textInput').value = '';
+            imageInput.value = ''; // Clear the file input
+            document.getElementById('popup').style.display = 'none'; // Hide the popup box
+        };
+        reader.readAsDataURL(imageFile);
+    }
+    
+    function appendContent(container, content) {
+        var newDiv = document.createElement('div');
+        var date = formatDate(new Date());
+        newDiv.innerHTML = `
+            <div class="container">
+                <div class="left-container">
+                    <div class="img-container">
+                        <img class="img" src="${content.imageUrl}" alt="Image">
+                    </div>
+                </div>
+                <div class="right-container">
+                    <div class="heading">${content.heading}</div>
+                    <div class="text">${content.text}</div>
+                    <div class="date">${date}</div>
+                    <!-- 3-dot menu -->
+                    <div class="menu">
+                        <div class="menu-icon active" onclick="toggleMenu(this)" style="cursor: pointer;">&#8942;</div>
+                        <div class="menu-options">
+                            <div class="menu-option edit">Edit</div>
+                            <div class="menu-option delete" onclick="deleteContainer(this)">Delete</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        container.appendChild(newDiv);
+    }
+    
+    function formatDate(date) {
+        const options = { day: '2-digit', month: 'long', year: 'numeric' };
+        return date.toLocaleDateString('en-US', options);
+    }
+    
+    function toggleMenu(menuOptions) {
+        var options = menuOptions.nextElementSibling;
+        if (options.style.display === 'block') {
+            // Commented out the hiding of menu options
+            // hideMenu(options);
+        } else {
+            showMenu(options);
+        }
+    }
+    
+    function showMenu(menuOptions) {
+        menuOptions.style.display = 'block';
+        clearTimeout(hideTimeout);
+        // Add details when the dropdown menu is shown
+        console.log("Dropdown menu is hovered");
+    }
+    
+    function hideMenu(menuOptions) {
+        hideTimeout = setTimeout(function () {
+            menuOptions.style.display = 'none';
+        }, 75); // 1 second delay
+        // Add details when the dropdown menu is hidden
+        console.log("Dropdown menu is not hovered");
+    }
+    
+    function deleteContainer(container) {
+        container.closest('.container').remove();
+    
+        // Remove content from local storage
+        var storedContent = JSON.parse(localStorage.getItem('content')) || [];
+        var index = Array.from(container.closest('.scroll-content').children).indexOf(container.closest('.container'));
+        storedContent.splice(index, 1);
+        localStorage.setItem('content', JSON.stringify(storedContent));
+    }
+    
+    </script>
+
+</body>
+
+</html>

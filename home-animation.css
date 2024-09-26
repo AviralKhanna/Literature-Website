@@ -1,0 +1,25 @@
+.word-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0,0.8);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.word {
+  color: white;
+  position: absolute;
+  animation: twinkle 4s infinite; /* 2s for fade out + 2s for fade in */
+}
+
+@keyframes twinkle {
+  0%, 100% {
+      opacity: 0;
+  }
+  50% {
+      opacity: 1;
+  }
+}
